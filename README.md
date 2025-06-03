@@ -1,2 +1,2 @@
-pr2_common [![Build Status](https://travis-ci.com/PR2/pr2_common.svg?branch=melodic-devel)](https://travis-ci.com/PR2/pr2_common)
+pr2_common [![Build Status](https://github.com/sarthou/pr2_common/actions/workflows/ROS2/badge.svg)](https://github.com/sarthou/pr2_common/actions)
 =================================================================================================================================
