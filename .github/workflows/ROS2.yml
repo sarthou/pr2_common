@@ -43,7 +43,7 @@ jobs:
           cd ros2_ws/src
           git clone -b ros2 https://github.com/jdlangs/ivcon.git
           git clone -b ros2 https://github.com/jdlangs/convex_decomposition.git
-          cd ros2_ws
+          cd ..
           colcon build --symlink-install
 
       - name: Checkout
