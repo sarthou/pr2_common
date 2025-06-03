@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 project(pr2_dashboard_aggregator)
 
 find_package(ament_cmake REQUIRED)
