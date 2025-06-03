@@ -33,30 +33,38 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 import time
-import rospy
+
+import rclpy
+from rclpy.node import Node
+
 from std_msgs.msg import Bool
 from pr2_msgs.msg import PowerBoardState, PowerState, DashboardState, AccessPoint
 
-class DashboardAggregator:
+class DashboardAggregator(Node):
   def __init__(self):
+    super().__init__('pr2_dashboard_aggregator')
+
     self.msg = DashboardState()
 
     # Create publisher
-    self.pub = rospy.Publisher("dashboard_agg", DashboardState, queue_size=10)
+    self.pub = self.create_publisher(DashboardState, "dashboard_agg", 10)
 
     # Create subscribers
     # Circuit Breaker
-    rospy.Subscriber("power_board/state", PowerBoardState, self.powerBoardCB)
+    self.create_subscription(PowerBoardState, "power_board/state", self.powerBoardCB, 10)
     self.last_power_board_state = 0
     # Battery
-    rospy.Subscriber("power_state", PowerState, self.powerCB)
+    self.create_subscription(PowerState, "power_state", self.powerCB, 10)
     self.last_power_state = 0
     # Wireless
-    rospy.Subscriber("ddwrt/accesspoint", AccessPoint, self.accessPointCB)
+    self.create_subscription(AccessPoint, "ddwrt/accesspoint", self.accessPointCB, 10)
     self.last_access_point = 0
     # Motor State
-    rospy.Subscriber("pr2_ethercat/motors_halted", Bool, self.motorsHaltedCB)
+    self.create_subscription(Bool, "pr2_ethercat/motors_halted", self.motorsHaltedCB, 10)
     self.last_motors_halted = 0
+
+    # Timer for publishing
+    self.create_timer(1.0, self.publish)
 
   def motorsHaltedCB(self, msg):
     self.last_motors_halted = time.time()
@@ -82,16 +90,18 @@ class DashboardAggregator:
     self.msg.access_point_valid = (now - self.last_access_point) < 5
     self.pub.publish(self.msg)
 
-def main():
-  rospy.init_node("pr2_dashboard_aggregator")
-  da = DashboardAggregator()
-  r = rospy.Rate(1)
-  while not rospy.is_shutdown():
-    da.publish()
-    try:
-      r.sleep()
-    except rospy.exceptions.ROSInterruptException:
-      rospy.logdebug('Sleep interrupted')
+def main(args=None):
+  rclpy.init(args=args)
+
+  node = DashboardAggregator()
+
+  try:
+    rclpy.spin(node)
+  except KeyboardInterrupt:
+    pass
+  finally:
+    node.destroy_node()
+    rclpy.shutdown()
 
 if __name__ == "__main__":
   main()

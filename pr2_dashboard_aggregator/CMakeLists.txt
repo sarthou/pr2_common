@@ -1,9 +1,15 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(pr2_dashboard_aggregator)
 
-find_package(catkin REQUIRED)
+find_package(ament_cmake REQUIRED)
+find_package(rclpy REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(pr2_msgs REQUIRED)
 
-catkin_package()
+install(
+  PROGRAMS
+    dashboard_aggregator.py
+  DESTINATION lib/${PROJECT_NAME}
+)
 
-install(PROGRAMS dashboard_aggregator.py
-   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+ament_package()

@@ -2,6 +2,11 @@
 Changelog for package pr2_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.0 (2025-06-03)
+-------------------
+* Convert to ROS2
+* Change maintainer
+
 1.13.1 (2022-09-07)
 -------------------
 * allow pr2.urdf.xacro to accept customized calibration values (`#285 <https://github.com/PR2/pr2_common/issues/285>`_)

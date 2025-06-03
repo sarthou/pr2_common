@@ -12,7 +12,7 @@ int8 MASTER_ON=2
 int8 MASTER_OFF=3
 int8 MASTER_SHUTDOWN=4
 
-Header header
+std_msgs/Header header
 string name # Name with serial number
 uint32 serial_num # Serial number for this board's message
 float64 input_voltage # Input voltage to power board

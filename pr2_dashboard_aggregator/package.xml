@@ -1,8 +1,11 @@
-<package>
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+
+<package format="3">
   <name>pr2_dashboard_aggregator</name>
-  <version>1.13.1</version>
+  <version>2.0.0</version>
   <description>A simple script that aggregates all of the topics that a "pr2_dashboard" app might be interested in.</description>
-  <maintainer email="ros-orphaned-packages@googlegroups.com">ROS Orphaned Package Maintainers</maintainer>
+  <maintainer email="gsarthou@laas.fr">LAAS-CNRS</maintainer>
 
   <license>BSD</license>
 
@@ -11,11 +14,15 @@
 
   <author>Rob Wheeler</author>
   <author>Austin Hendrix</author>
+  
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <buildtool_depend>catkin</buildtool_depend>
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>pr2_msgs</depend>
 
-  <run_depend>rospy</run_depend>
-  <run_depend>std_msgs</run_depend>
-  <run_depend>pr2_msgs</run_depend>
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
 
 </package>

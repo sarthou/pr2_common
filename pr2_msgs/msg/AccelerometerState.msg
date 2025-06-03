@@ -5,5 +5,5 @@
 #The communication with the accelerometer is at approximately 3khz, but there is only good timestamping every 1ms
 #This means the samples should be interpreted as all having come from the 1 ms before the time in the header
 
-Header header
+std_msgs/Header header
 geometry_msgs/Vector3[] samples

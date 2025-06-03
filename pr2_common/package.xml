@@ -1,8 +1,13 @@
-<package>
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+
+<package format="3">
   <name>pr2_common</name>
-  <version>1.13.1</version>
-  <description>URDF description of the robot kinematics and dynamics, 3D models of robot components, information required for gazebo to simulate the PR2, and messages specific to the PR2 such as detailed information about its power board and fingertip pressure sensors.</description>
-  <maintainer email="ros-orphaned-packages@googlegroups.com">ROS Orphaned Package Maintainers</maintainer>
+  <version>2.0.0</version>
+  <description>URDF description of the robot kinematics and dynamics, 3D models of robot components, 
+               information required for gazebo to simulate the PR2, and messages specific to the PR2 
+               such as detailed information about its power board and fingertip pressure sensors.</description>
+  <maintainer email="gsarthou@laas.fr">LAAS-CNRS</maintainer>
 
   <license>BSD</license>
 
@@ -14,10 +19,10 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <run_depend>pr2_msgs</run_depend>
-  <run_depend>pr2_dashboard_aggregator</run_depend>
-  <run_depend>pr2_description</run_depend>
-  <run_depend>pr2_machine</run_depend>
+  <exec_depend>pr2_msgs</exec_depend>
+  <exec_depend>pr2_dashboard_aggregator</exec_depend>
+  <exec_depend>pr2_description</exec_depend>
+  <exec_depend>pr2_machine</exec_depend>
 
   <export>
     <metapackage/>

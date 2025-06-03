@@ -2,6 +2,12 @@
 Changelog for package pr2_machine
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.0 (2025-06-03)
+-------------------
+
+* Package converted to ROS2 but no more install launch files as equivalence to <machine> tag does not exist.
+* This package is empty and just a place holder to remember that something has to be done.
+
 1.13.1 (2022-09-07)
 -------------------
 

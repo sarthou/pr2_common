@@ -1,7 +1,11 @@
-# http://ros.org/doc/groovy/api/catkin/html/user_guide/supposed.html
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(pr2_description)
-find_package(catkin REQUIRED COMPONENTS convex_decomposition ivcon)
+
+find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_gtest REQUIRED)
+find_package(convex_decomposition REQUIRED)
+find_package(ivcon REQUIRED)
+
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
@@ -93,24 +97,36 @@ foreach(it ${pr2_stl_files})
 
 endforeach(it)
 
-add_custom_target(media_files ALL DEPENDS ${pr2urdf} ${pr2robot_expanded} ${prfrobot_expanded} ${prgrobot_expanded} ${pr2prototype1_expanded} ${pr2larm_expanded} ${pr2rarm_expanded} ${pr2lgripper_expanded} ${pr2rgripper_expanded} ${pr2_gen_files} )
+add_custom_target(media_files ALL DEPENDS 
+    ${pr2urdf}
+    ${pr2robot_expanded}
+    ${prfrobot_expanded}
+    ${prgrobot_expanded}
+    ${pr2prototype1_expanded}
+    ${pr2larm_expanded}
+    ${pr2rarm_expanded}
+    ${pr2lgripper_expanded}
+    ${pr2rgripper_expanded}
+    ${pr2_gen_files} )
 
-## CATKIN_DEPENDS: catkin_packages dependent projects also need
-## DEPENDS: system dependencies of this project that dependent projects also need
-catkin_package(CATKIN_DEPENDS xacro)
+if(BUILD_TESTING)
+  find_package(PkgConfig REQUIRED)
+  pkg_check_modules(URDFDOM REQUIRED urdfdom)
+  message(STATUS "Found URDFDOM ${URDFDOM_VERSION}")
 
-if(CATKIN_ENABLE_TESTING)
-	find_package(PkgConfig)
-	pkg_check_modules(URDFDOM REQUIRED urdfdom)
-	message(STATUS "Find URDFDOM ${URDFDOM_VERSION}")
-	catkin_add_gtest(test_urdf test/test_urdf.cpp WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
-	if ("${URDFDOM_VERSION}" VERSION_EQUAL "1.0.0" OR "${URDFDOM_VERSION}" VERSION_GREATER "1.0.0")
-		target_compile_definitions(test_urdf PRIVATE -DURDFDOM_1_0_0_API)
-    endif()
-	target_link_libraries(test_urdf urdfdom_model)
+  # Add the gtest executable
+  ament_add_gtest(test_urdf test/test_urdf.cpp WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
+  if(URDFDOM_VERSION VERSION_EQUAL "1.0.0" OR URDFDOM_VERSION VERSION_GREATER "1.0.0")
+    target_compile_definitions(test_urdf PRIVATE URDFDOM_1_0_0_API)
+  endif()
+
+  target_include_directories(test_urdf PRIVATE ${URDFDOM_INCLUDE_DIRS})
+  target_link_libraries(test_urdf ${URDFDOM_LIBRARIES})
 endif()
 
 foreach(dir meshes gazebo materials robots documents urdf)
-   install(DIRECTORY ${dir}/ 
-      DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
+   install(DIRECTORY ${dir}/ DESTINATION share/${PROJECT_NAME}/${dir})
 endforeach(dir)
+
+ament_package()

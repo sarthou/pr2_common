@@ -49,12 +49,11 @@
 #include <fstream>
 
 #include <urdf_parser/urdf_parser.h>
-#include <boost/function.hpp>
 #include <urdf_model/model.h>
 
 int runExternalProcess(const std::string &executable, const std::string &args)
 {
-    return system((executable + " " + args).c_str());
+  return system((executable + " " + args).c_str());
 }
 
 int walker( std::string & result, int& test_result)
@@ -64,6 +63,7 @@ int walker( std::string & result, int& test_result)
   d = opendir( "robots" );
   if( d == NULL )
   {
+    test_result = 9;
     return 1;
   }
   while( ( dir = readdir( d ) ) )
@@ -73,6 +73,7 @@ int walker( std::string & result, int& test_result)
     {
       continue;
     }
+
     if( dir->d_type != DT_DIR )
     {
       std::string dir_name = dir->d_name;
@@ -81,30 +82,30 @@ int walker( std::string & result, int& test_result)
         char pwd[MAXPATHLEN];
         getcwd( pwd, MAXPATHLEN );
         std::string name = std::string(pwd)+"/robots/"+dir_name;
-        printf("\n\ntesting: %s\n",name.c_str());
+        std::cout << "testing: " << name << std::endl;
         result += name;
         result += " ";
 
-        runExternalProcess("rosrun xacro xacro", name+" --inorder > `rospack find pr2_description`/test/tmp.urdf" );
-        std::string path = std::string(pwd)+"/test/tmp.urdf";
-
+        runExternalProcess("ros2 run xacro xacro", name+" > /tmp/tmp.urdf" );
+        std::string path = "/tmp/tmp.urdf";
 
         std::string xml_string;
         std::fstream xml_file(path.c_str(), std::fstream::in);
         while ( xml_file.good() )
         {
-            std::string line;
-            std::getline( xml_file, line);
-            xml_string += (line + "\n");
+          std::string line;
+          std::getline( xml_file, line);
+          xml_string += (line + "\n");
         }
         xml_file.close();
 
 #if URDFDOM_1_0_0_API
         urdf::ModelInterfaceSharedPtr robot = urdf::parseURDF(xml_string);
 #else
-        boost::shared_ptr<urdf::ModelInterface> robot = urdf::parseURDF(xml_string);
+        std::shared_ptr<urdf::ModelInterface> robot = urdf::parseURDF(xml_string);
 #endif
-        if (!robot) test_result = test_result || 1;
+        if (!robot)
+          test_result = test_result | 1;
 
       }
     }
@@ -120,19 +121,19 @@ TEST(URDF, CorrectFormat)
   std::string result;
   if( walker( result, test_result ) == 0 )
   {
-    printf( "Found: %s\n", result.c_str() );
+    std::cout << "Found: " << result << std::endl;
   }
   else
   {
-    puts( "Not found" );
+    std::cout << "Not found" << std::endl;
     test_result = -1;
   }
 
-  EXPECT_TRUE(test_result == 0);
+  EXPECT_EQ(test_result, 0);
 }
 
 int main(int argc, char **argv)
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }

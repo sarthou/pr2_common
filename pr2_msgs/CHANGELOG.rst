@@ -2,6 +2,14 @@
 Changelog for package pr2_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.0 (2025-06-03)
+-------------------
+
+* change maintainer
+* convert to ROS2
+* remove deprecated messages
+* fix invalid field name
+
 1.13.1 (2022-09-07)
 -------------------
 

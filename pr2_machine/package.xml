@@ -1,7 +1,12 @@
-<package>
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+
+<package format="3">
   <name>pr2_machine</name>
-  <version>1.13.1</version>
-  <description>This package contains the xxx.machine files that describe the different hosts a node can be spawned on. Currently there is one machine file for the pr2 robot, and one for the simulated pr2 robot.</description>
+  <version>2.0.0</version>
+  <description>This package contains the xxx.machine files that describe the different hosts a node can be spawned on.
+                Currently there is one machine file for the pr2 robot, and one for the simulated pr2 robot.</description>
+
   <maintainer email="ros-orphaned-packages@googlegroups.com">ROS Orphaned Package Maintainers</maintainer>
 
   <license>BSD</license>
@@ -12,6 +17,10 @@
   <author>Wim Meeussen</author>
   <author>Austin Hendrix</author>
 
-  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
 
 </package>

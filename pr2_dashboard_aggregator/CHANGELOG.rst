@@ -2,6 +2,11 @@
 Changelog for package pr2_dashboard_aggregator
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.0 (2025-06-03)
+-------------------
+* Convert to ROS2
+* Change maintainer
+
 1.13.1 (2022-09-07)
 -------------------
 * fix typo pr2_etherCAT -> pr2_ethercat (`#288 <https://github.com/PR2/pr2_common/issues/288>`_)

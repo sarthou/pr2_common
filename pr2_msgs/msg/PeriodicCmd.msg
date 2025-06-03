@@ -1,6 +1,6 @@
 # This message is used to set the parameters of a profile executed by the
 # laser tilt controller.
-Header header
+std_msgs/Header header
 string profile
 float64 period
 float64 amplitude

@@ -1,31 +1,39 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(pr2_msgs)
-find_package(catkin REQUIRED COMPONENTS message_generation std_msgs geometry_msgs)
 
-add_message_files(
-  FILES
-  AccelerometerState.msg
-  AccessPoint.msg
-  BatteryServer2.msg
-  BatteryServer.msg
-  BatteryState2.msg
-  BatteryState.msg
-  DashboardState.msg
-  GPUStatus.msg
-  LaserScannerSignal.msg
-  LaserTrajCmd.msg
-  PeriodicCmd.msg
-  PowerBoardState.msg
-  PowerState.msg
-  PressureState.msg
-)
+# Default to C++17
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
-add_service_files(
-  FILES
-  SetLaserTrajCmd.srv
-  SetPeriodicCmd.srv
-)
+find_package(ament_cmake REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+find_package(builtin_interfaces REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
-generate_messages(DEPENDENCIES geometry_msgs std_msgs)
+rosidl_generate_interfaces(pr2_msgs
+  "msg/AccelerometerState.msg"
+  "msg/AccessPoint.msg"
+  "msg/BatteryServer.msg"
+  "msg/BatteryState.msg"
+  "msg/DashboardState.msg"
+  "msg/GPUStatus.msg"
+  "msg/LaserScannerSignal.msg"
+  "msg/LaserTrajCmd.msg"
+  "msg/PeriodicCmd.msg"
+  "msg/PowerBoardState.msg"
+  "msg/PowerState.msg"
+  "msg/PressureState.msg"
+  "srv/SetLaserTrajCmd.srv"
+  "srv/SetPeriodicCmd.srv"
+  DEPENDENCIES builtin_interfaces std_msgs geometry_msgs
+  ADD_LINTER_TESTS)
 
-catkin_package(CATKIN_DEPENDS std_msgs geometry_msgs)
+ament_export_dependencies(rosidl_default_runtime)
+
+ament_package()

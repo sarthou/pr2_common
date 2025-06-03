@@ -1,4 +1,4 @@
-Header header
+std_msgs/Header header
 string product_name
 string pci_device_id
 string pci_location
