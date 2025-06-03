@@ -86,8 +86,8 @@ int walker( std::string & result, int& test_result)
         result += name;
         result += " ";
 
-        runExternalProcess("ros2 run xacro xacro", name+" > /tmp/tmp.urdf" );
-        std::string path = "/tmp/tmp.urdf";
+        runExternalProcess("ros2 run xacro xacro", name+" > " + std::string(pwd)+"/tmp.urdf" );
+        std::string path = std::string(pwd) + "/tmp.urdf";
 
         std::string xml_string;
         std::fstream xml_file(path.c_str(), std::fstream::in);
@@ -98,6 +98,8 @@ int walker( std::string & result, int& test_result)
           xml_string += (line + "\n");
         }
         xml_file.close();
+
+        runExternalProcess("rm", std::string(pwd)+"/tmp.urdf" );
 
 #if URDFDOM_1_0_0_API
         urdf::ModelInterfaceSharedPtr robot = urdf::parseURDF(xml_string);
