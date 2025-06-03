@@ -57,4 +57,4 @@ jobs:
           source install/setup.bash
           export ROS_LOCALHOST_ONLY=1
           colcon build --symlink-install
-          colcon test
+          colcon test --return-code-on-test-failure
